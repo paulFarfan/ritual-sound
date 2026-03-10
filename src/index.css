@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #0a0e27;
+  color: white;
+}
+
+.neon-text {
+  text-shadow:
+    0 0 5px #ff00ff,
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 40px #ff00ff;
+}
+
+.neon-button {
+  box-shadow:
+    0 0 5px #00f0ff,
+    0 0 15px #00f0ff,
+    0 0 30px #00f0ff;
+}
+
+.desert-bg {
+  background-image: url("/src/assets/desert-bg.png");
+  background-size: cover;
+  background-position: center;
+}
+
+html {
+  scroll-behavior: smooth;
+}

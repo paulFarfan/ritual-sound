@@ -1,51 +1,79 @@
 function HireDJ() {
   return (
-    <section id="hire" className="py-28 bg-black">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 neon-text">
+    <section
+      id="hire"
+      className="relative py-20 md:py-28 bg-black overflow-hidden"
+    >
+      {/* BACKGROUND GLOW */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute bottom-[-120px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/20 blur-[180px]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 md:px-6 text-center">
+        {/* TITLE */}
+        <h2 className="text-3xl md:text-5xl font-bold mb-4 neon-text">
           Hire a DJ
         </h2>
 
-        <p className="max-w-2xl mx-auto opacity-80 mb-16">
-          Book professional DJs from the SunnyFun Collective for your next
-          event. From underground parties to corporate events, we bring the
-          desert beats.
+        {/* SUBTITLE */}
+        <p className="text-purple-400 uppercase tracking-widest text-sm mb-4">
+          Any vibe. Any event. We’ve got you.
         </p>
 
-        {/* SERVICES */}
-        <div className="grid md:grid-cols-4 gap-8">
-          <div className="bg-neutral-900 p-8 rounded-xl border border-white/10 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition">
-            <h3 className="text-xl font-bold mb-3">Private Parties</h3>
-            <p className="opacity-70 text-sm">
-              Birthdays, house parties and celebrations.
-            </p>
-          </div>
+        {/* DESCRIPTION */}
+        <p className="max-w-2xl mx-auto text-white/70 mb-14">
+          From intimate gatherings to high-energy events, we match you with the
+          right DJ from our collective — tailored to your sound, your crowd, and
+          your moment.
+        </p>
 
-          <div className="bg-neutral-900 p-8 rounded-xl border border-white/10 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition">
-            <h3 className="text-xl font-bold mb-3">Corporate Events</h3>
-            <p className="opacity-70 text-sm">
-              Professional DJs for company events.
-            </p>
-          </div>
+        {/* SERVICES / VIBES */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              title: "Private Parties",
+              desc: "House parties, birthdays & intimate vibes",
+            },
+            {
+              title: "Corporate Events",
+              desc: "Clean, professional & adaptable sound",
+            },
+            {
+              title: "Weddings",
+              desc: "Emotional moments & unforgettable nights",
+            },
+            {
+              title: "Festivals",
+              desc: "High energy & crowd-driven performances",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="relative group bg-neutral-900/60 backdrop-blur border border-white/10 p-6 rounded-2xl overflow-hidden hover:scale-[1.03] transition"
+            >
+              {/* GLOW */}
+              <div className="absolute inset-0 bg-purple-600/20 opacity-0 group-hover:opacity-100 transition blur-2xl"></div>
 
-          <div className="bg-neutral-900 p-8 rounded-xl border border-white/10 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition">
-            <h3 className="text-xl font-bold mb-3">Weddings</h3>
-            <p className="opacity-70 text-sm">
-              Music for unforgettable celebrations.
-            </p>
-          </div>
+              <h3 className="relative text-lg font-bold mb-2 uppercase tracking-wider">
+                {item.title}
+              </h3>
 
-          <div className="bg-neutral-900 p-8 rounded-xl border border-white/10 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition">
-            <h3 className="text-xl font-bold mb-3">Festivals</h3>
-            <p className="opacity-70 text-sm">
-              High energy DJs for large events.
-            </p>
-          </div>
+              <p className="relative text-sm text-white/60">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* VALUE PROPS */}
+        <div className="mt-16 flex flex-col md:flex-row justify-center items-center gap-8 text-sm text-white/60">
+          <p>✔ Curated DJs</p>
+          <p>✔ Custom music selection</p>
+          <p>✔ Professional setup</p>
+          <p>✔ Reliable & seamless experience</p>
         </div>
 
         {/* CTA */}
-        <div className="mt-16">
-          <button className="px-10 py-4 bg-purple-600 rounded-lg neon-button hover:scale-105 transition text-lg">
+        <div className="mt-12 flex justify-center">
+          <button className="px-8 py-3 bg-purple-600 rounded-xl hover:scale-105 transition uppercase tracking-wider text-sm">
             Request a DJ
           </button>
         </div>

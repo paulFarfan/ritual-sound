@@ -1,24 +1,48 @@
+import night from "../assets/events/night.jpg";
+import pool from "../assets/events/pool.jpg";
+import sunset from "../assets/events/sunset.jpg";
+
 const events = [
   {
-    id: 1,
-    name: "Desert Rave Vol. 01",
-    date: "July 12",
-    location: "Melbourne Underground",
-    lineup: ["DJ Sol", "Neon Rider", "Cactus Beat"],
+    id: "desert-pulse",
+    title: "Desert Pulse",
+    date: "Apr 20",
+    location: "Melbourne",
+
+    image: sunset,
+
+    description:
+      "Sunset session blending deep house and melodic techno as the city fades into night.",
+
+    vibe: "Sunset / Deep",
   },
+
   {
-    id: 2,
-    name: "Outlaw Night",
-    date: "August 02",
-    location: "Warehouse District",
-    lineup: ["Dusty Groove", "Electro Bandit", "Night Pulse"],
+    id: "midnight-frequency",
+    title: "Midnight Frequency",
+    date: "May 04",
+    location: "Melbourne",
+
+    image: night,
+
+    description:
+      "Late-night underground energy with driving techno and immersive soundscapes.",
+
+    vibe: "Night / Techno",
   },
+
   {
-    id: 3,
-    name: "Neon Desert Party",
-    date: "August 23",
-    location: "Secret Location",
-    lineup: ["DJ Mirage", "Bass Nomad", "Solar Drop"],
+    id: "liquid-groove",
+    title: "Liquid Groove",
+    date: "May 18",
+    location: "Melbourne",
+
+    image: pool,
+
+    description:
+      "Day party with house rhythms, sun, and high-energy crowd connection.",
+
+    vibe: "Day / House",
   },
 ];
 

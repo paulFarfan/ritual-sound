@@ -13,10 +13,10 @@ function App() {
       <Navbar />
 
       <Hero />
+      <DJs />
       <Events />
       <Academy />
       <HireDJ />
-      <DJs />
 
       <Footer />
     </>

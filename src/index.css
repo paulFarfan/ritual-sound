@@ -23,11 +23,27 @@ body {
 }
 
 .desert-bg {
-  background-image: url("/src/assets/desert-bg.png");
+  background-image: url("./assets/images/desert-bg.png");
   background-size: cover;
   background-position: center;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+.float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

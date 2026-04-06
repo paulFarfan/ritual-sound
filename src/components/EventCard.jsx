@@ -1,24 +1,56 @@
-function EventCard({ event }) {
+function EventCard({ event, featured }) {
   return (
-    <div className="bg-neutral-900 border border-white/10 rounded-xl p-6 hover:scale-105 transition duration-300 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)]">
-      <h3 className="text-xl font-bold mb-2">{event.name}</h3>
+    <div
+      className={`relative group rounded-2xl overflow-hidden cursor-pointer ${
+        featured ? "h-[420px]" : "h-[300px]"
+      }`}
+    >
+      {/* IMAGE */}
+      <img
+        src={event.image}
+        alt={event.title}
+        className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+      />
 
-      <p className="text-sm opacity-70 mb-3">
-        {event.date} • {event.location}
-      </p>
+      {/* DARK OVERLAY */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
 
-      <div className="text-sm opacity-80 mb-4">
-        Lineup:
-        <ul className="mt-2">
-          {event.lineup.map((dj, index) => (
-            <li key={index}>• {dj}</li>
-          ))}
-        </ul>
+      {/* GLOW */}
+      <div className="absolute inset-0 bg-purple-600/20 opacity-0 group-hover:opacity-100 transition duration-500 blur-2xl" />
+
+      {/* VIBE TAG */}
+      <div className="absolute top-4 left-4">
+        <span className="text-[10px] uppercase tracking-widest bg-black/60 backdrop-blur px-3 py-1 rounded-full border border-white/10">
+          {event.vibe}
+        </span>
       </div>
 
-      <button className="mt-4 px-4 py-2 bg-purple-600 rounded-lg neon-button hover:scale-105 transition">
-        View Event
-      </button>
+      {/* CONTENT */}
+      <div className="absolute bottom-0 p-6 w-full">
+        {/* DATE + LOCATION */}
+        <p className="text-xs text-purple-400 mb-1">
+          {event.date} • {event.location}
+        </p>
+
+        {/* TITLE */}
+        <h3 className="text-xl md:text-2xl font-bold uppercase tracking-wider">
+          {event.title}
+        </h3>
+
+        {/* DESCRIPTION (solo featured) */}
+        {featured && (
+          <p className="text-white/70 text-sm mt-2 max-w-md">
+            {event.description}
+          </p>
+        )}
+
+        {/* CTA HOVER */}
+        <div className="mt-4 opacity-0 group-hover:opacity-100 transition">
+          <span className="text-xs uppercase tracking-wider text-purple-400">
+            View Event →
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

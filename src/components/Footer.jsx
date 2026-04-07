@@ -4,9 +4,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 text-center md:text-left">
         {/* BRAND */}
         <div>
-          <h3 className="text-2xl font-bold neon-text mb-4">
-            SunnyFun Collective
-          </h3>
+          <h3 className="text-2xl font-bold neon-text mb-4">RITUAL SOUND</h3>
 
           <p className="text-white/60 text-sm max-w-sm mx-auto md:mx-0 mb-6">
             A Melbourne-based DJ collective creating events, developing talent,
@@ -72,7 +70,7 @@ function Footer() {
 
             <li>
               <a
-                href="mailto:hello@sunnyfun.com"
+                href="mailto:hello@ritualsound.com"
                 className="hover:text-purple-400 transition"
               >
                 Email
@@ -90,8 +88,7 @@ function Footer() {
 
       {/* BOTTOM BAR */}
       <div className="text-center text-xs text-white/40 mt-12 px-4">
-        © {new Date().getFullYear()} SunnyFun Collective. Built for the
-        underground.
+        © {new Date().getFullYear()} Ritual Sound. Built for the underground.
       </div>
     </footer>
   );

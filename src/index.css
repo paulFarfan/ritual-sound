@@ -9,10 +9,10 @@ body {
 
 .neon-text {
   text-shadow:
-    0 0 5px #ff00ff,
-    0 0 10px #ff00ff,
-    0 0 20px #ff00ff,
-    0 0 40px #ff00ff;
+    0 0 5px #ff00ffd5,
+    0 0 10px #ff00ffd5,
+    0 0 20px #ff00ffd5,
+    0 0 40px #ff00ffd5;
 }
 
 .neon-button {
@@ -20,12 +20,6 @@ body {
     0 0 5px #00f0ff,
     0 0 15px #00f0ff,
     0 0 30px #00f0ff;
-}
-
-.desert-bg {
-  background-image: url("./assets/images/desert-bg.png");
-  background-size: cover;
-  background-position: center;
 }
 
 html {

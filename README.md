@@ -1,6 +1,6 @@
-# 🌵 SunnyFun Collective
+# RITUAL SOUNDe
 
-**SunnyFun Collective** is a Melbourne-based DJ collective and digital platform designed to connect **events, DJs, and opportunities** into a single ecosystem.
+**RITUAL SOUND** is a Melbourne-based DJ collective and digital platform designed to connect **events, DJs, and opportunities** into a single ecosystem.
 
 This project is not just a landing page — it represents the foundation of a **real product** that aims to grow into a DJ marketplace, booking platform, and talent development system.
 
@@ -8,7 +8,7 @@ This project is not just a landing page — it represents the foundation of a **
 
 ## 🚀 Vision
 
-SunnyFun Collective is built around a simple idea:
+Ritual Sound is built around a simple idea:
 
 > **Create events. Develop talent. Connect DJs with real opportunities.**
 
@@ -127,14 +127,17 @@ This project is designed to evolve into:
 
 ---
 
-## 🧠 Product Mindset
+🎨 Design & Branding
 
-This project is being developed with a **startup mindset**, not just UI:
+The visual identity is inspired by:
 
-- Scalable architecture
-- Real-world use case
-- Community-driven growth
-- Clear monetization paths
+- Underground rave culture & night energy
+- Immersive club and festival environments
+- Neon lighting (purple, blue, magenta)
+- Dark, atmospheric UI with glow and blur effects
+- Sound-driven visuals (waveforms, light pulses, energy flows)
+
+The brand direction focuses on creating a cinematic and immersive experience, where visuals reflect the intensity of live electronic music events.
 
 ---
 
@@ -164,7 +167,7 @@ This project is also a **collaboration tool** to bring DJs together, exchange id
 
 ## ⚡ Final Note
 
-SunnyFun Collective is not just about music.
+Ritual Sound is not just about music.
 
 It’s about building a platform where:
 

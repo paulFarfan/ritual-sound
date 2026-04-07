@@ -101,7 +101,7 @@ function Academy() {
 
             {/* HIGHLIGHT */}
             <p className="text-xs text-purple-400 mb-6">
-              Graduation = Live performance at a SunnyFun event
+              Graduation = Live performance at a Ritual Sound event
             </p>
 
             {/* STATS */}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/favicon.png";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -8,12 +8,16 @@ function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-black/40 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <img src={logo} alt="SunnyFun" className="w-8 md:w-10" />
+        <a
+          href="#"
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={() => setOpen(false)}
+        >
+          <img src={logo} alt="ritual sound" className="w-8 md:w-10" />
           <span className="font-bold text-sm md:text-lg tracking-wider">
-            SunnyFun
+            RITUAL SOUND
           </span>
-        </div>
+        </a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex gap-8 text-sm tracking-wide">

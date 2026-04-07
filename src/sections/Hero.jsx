@@ -47,7 +47,7 @@ function Hero() {
             {/* HEADLINE */}
             <h1 className="font-bold neon-text leading-[0.9] tracking-tight text-[clamp(3rem,7vw,5rem)]">
               <span className="block whitespace-nowrap">Ritual Sound.</span>
-              <span className="block whitespace-nowrap">Marginalized DJs.</span>
+              <span className="block whitespace-nowrap">Elite DJs.</span>
             </h1>
 
             {/* SUBHEADLINE */}

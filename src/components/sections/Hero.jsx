@@ -1,8 +1,8 @@
-import logo from "../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 import { useEffect, useState } from "react";
-import img1 from "../assets/hero/1.jpg";
-import img2 from "../assets/hero/2.jpg";
-import img3 from "../assets/hero/3.jpg";
+import img1 from "../../assets/hero/1.jpg";
+import img2 from "../../assets/hero/2.jpg";
+import img3 from "../../assets/hero/3.jpg";
 
 const images = [img1, img2, img3];
 

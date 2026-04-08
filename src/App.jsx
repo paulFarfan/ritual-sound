@@ -1,25 +1,20 @@
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Hero from "./sections/Hero";
-import Events from "./sections/Events";
-import Academy from "./sections/Academy";
-import HireDJ from "./sections/HireDJ";
-import DJs from "./sections/DJs";
+import Home from "./pages/Home";
+import Catalog from "./pages/CatalogPage";
+import DJProfile from "./pages/DJProfilePage";
+import ScrollToTop from "./components/utils/ScrollToTop";
 
 function App() {
   return (
-    <>
-      <Navbar />
-
-      <Hero />
-      <DJs />
-      <Events />
-      <Academy />
-      <HireDJ />
-
-      <Footer />
-    </>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/dj/:slug" element={<DJProfile />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

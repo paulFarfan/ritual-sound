@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/images/favicon.png";
+import logo from "../../assets/images/favicon.png";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -9,7 +9,7 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <a
-          href="#"
+          href="/"
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => setOpen(false)}
         >
@@ -21,16 +21,16 @@ function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex gap-8 text-sm tracking-wide">
-          <a href="#djs" className="hover:text-purple-400 transition">
+          <a href="/#djs" className="hover:text-purple-400 transition">
             Artists
           </a>
-          <a href="#events" className="hover:text-purple-400 transition">
+          <a href="/#events" className="hover:text-purple-400 transition">
             Events
           </a>
-          <a href="#academy" className="hover:text-purple-400 transition">
+          <a href="/#academy" className="hover:text-purple-400 transition">
             Academy
           </a>
-          <a href="#hire" className="hover:text-purple-400 transition">
+          <a href="/#hire" className="hover:text-purple-400 transition">
             Hire
           </a>
         </div>

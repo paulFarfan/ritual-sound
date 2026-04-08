@@ -1,5 +1,5 @@
-import events from "../data/events";
-import EventCard from "../components/EventCard";
+import events from "../../data/events";
+import EventCard from "../utils/EventCard";
 
 function Events() {
   const [featured, ...rest] = events;

@@ -1,10 +1,13 @@
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-import djs from "../data/djs";
-import DJCard from "../components/DJCard";
+import djs from "../../data/djs";
+import DJCard from "../utils/DJCard";
+
+import { useNavigate } from "react-router-dom";
 
 function DJs() {
+  const navigate = useNavigate();
   const [sliderRef] = useKeenSlider({
     loop: true,
     mode: "snap",
@@ -61,7 +64,10 @@ function DJs() {
 
         {/* CTA */}
         <div className="text-center mt-14">
-          <button className="px-6 py-3 border border-purple-500 text-purple-400 rounded-xl hover:bg-purple-500 hover:text-white transition uppercase tracking-wider text-sm">
+          <button
+            className="px-6 py-3 border border-purple-500 text-purple-400 rounded-xl hover:bg-purple-500 hover:text-white transition uppercase tracking-wider text-sm"
+            onClick={() => navigate("/catalog")}
+          >
             Explore All DJs
           </button>
         </div>

@@ -41,3 +41,64 @@ html {
     transform: translateY(0px);
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes smoke {
+  0% {
+    transform: translateY(40px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-40px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(40px);
+    opacity: 0.4;
+  }
+}
+
+.animate-smoke {
+  animation: smoke 8s ease-in-out infinite;
+}
+
+@keyframes ray {
+  0% {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(20%);
+    opacity: 0;
+  }
+}
+
+.animate-ray {
+  animation: ray 6s linear infinite;
+}
+
+.delay-200 {
+  animation-delay: 2s;
+}
+
+.delay-500 {
+  animation-delay: 4s;
+}

@@ -63,7 +63,7 @@ function Hero() {
           </div>
 
           {/* RIGHT (logo) */}
-          <div className="flex justify-center md:justify-center">
+          <div className="flex justify-center">
             <img
               src={logo}
               alt="Ritual Sound"

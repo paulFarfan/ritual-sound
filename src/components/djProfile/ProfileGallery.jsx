@@ -1,5 +1,5 @@
 function ProfileGallery({ dj }) {
-  const images = dj.media?.gallery || [];
+  const images = dj.mediaContent?.gallery || [];
 
   if (!images.length) return null;
 
@@ -9,9 +9,9 @@ function ProfileGallery({ dj }) {
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {images.map((img, i) => (
-          <div key={i} className="overflow-hidden rounded-xl group">
+          <div key={img.id || i} className="overflow-hidden rounded-xl group">
             <img
-              src={img}
+              src={img.url} // 🔥 CAMBIO IMPORTANTE
               alt=""
               className="w-full h-56 object-cover transition duration-500 group-hover:scale-110"
             />

@@ -5,7 +5,6 @@ import Events from "../components/sections/Events";
 import Academy from "../components/sections/Academy";
 import HireDJ from "../components/sections/HireDJ";
 import DJs from "../components/sections/DJs";
-
 function Home() {
   return (
     <>

@@ -3,7 +3,7 @@ import "keen-slider/keen-slider.min.css";
 
 import DJCard from "../utils/DJCard";
 
-function FeaturedCarousel({ djs }) {
+function FeaturedCarousel({ djs = [] }) {
   const [sliderRef] = useKeenSlider({
     loop: true,
     slides: {
@@ -29,7 +29,7 @@ function FeaturedCarousel({ djs }) {
       <div ref={sliderRef} className="keen-slider">
         {djs.slice(0, 10).map((dj) => (
           <div key={dj.id} className="keen-slider__slide">
-            <DJCard dj={dj} />
+            <DJCard dj={dj} variant="featured" />
           </div>
         ))}
       </div>

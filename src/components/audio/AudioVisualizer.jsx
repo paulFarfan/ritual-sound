@@ -5,34 +5,50 @@ function AudioVisualizer({ audioRef }) {
   const analyserRef = useRef(null);
   const sourceRef = useRef(null);
   const ctxRef = useRef(null);
+  const animationRef = useRef(null);
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    const canvas = canvasRef.current;
+    if (!audio || !canvas) return;
 
-    // 🔥 SOLO CREAR UNA VEZ
+    const c = canvas.getContext("2d");
+
+    // 🔥 crear contexto una sola vez
     if (!ctxRef.current) {
-      ctxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      ctxRef.current = ctx;
 
-      analyserRef.current = ctxRef.current.createAnalyser();
-
-      sourceRef.current = ctxRef.current.createMediaElementSource(audio);
-
-      sourceRef.current.connect(analyserRef.current);
-      analyserRef.current.connect(ctxRef.current.destination);
-
+      analyserRef.current = ctx.createAnalyser();
       analyserRef.current.fftSize = 64;
+
+      sourceRef.current = ctx.createMediaElementSource(audio);
+      sourceRef.current.connect(analyserRef.current);
+      analyserRef.current.connect(ctx.destination);
+
+      // opcional: exponer para el player
+      window.audioContext = ctx;
     }
 
     const analyser = analyserRef.current;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    const canvas = canvasRef.current;
-    const c = canvas.getContext("2d");
+    // 🔥 resize real del canvas
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
 
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // 🔥 render controlado
     const render = () => {
-      requestAnimationFrame(render);
+      animationRef.current = requestAnimationFrame(render);
+
+      // 👉 solo dibujar si el audio está activo
+      if (audio.paused) return;
 
       analyser.getByteFrequencyData(dataArray);
 
@@ -49,11 +65,15 @@ function AudioVisualizer({ audioRef }) {
     };
 
     render();
+
+    // 🧹 cleanup (CRÍTICO)
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+      window.removeEventListener("resize", resizeCanvas);
+    };
   }, [audioRef]);
 
-  return (
-    <canvas ref={canvasRef} width={300} height={80} className="w-full h-20" />
-  );
+  return <canvas ref={canvasRef} className="w-full h-20" />;
 }
 
 export default AudioVisualizer;

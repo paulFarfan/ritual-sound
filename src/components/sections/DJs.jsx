@@ -1,13 +1,18 @@
+import { useEffect, useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-import djs from "../../data/djs";
+import { getDJs } from "../../services/djService.js";
 import DJCard from "../utils/DJCard";
 
 import { useNavigate } from "react-router-dom";
 
 function DJs() {
   const navigate = useNavigate();
+
+  const [djs, setDjs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [sliderRef] = useKeenSlider({
     loop: true,
     mode: "snap",
@@ -32,6 +37,26 @@ function DJs() {
     },
   });
 
+  // 🔌 FETCH CENTRALIZADO
+  useEffect(() => {
+    const loadDJs = async () => {
+      const data = await getDJs();
+      setDjs(data);
+      setLoading(false);
+    };
+
+    loadDJs();
+  }, []);
+
+  // ⏳ LOADING (opcional pero recomendable)
+  if (loading) {
+    return (
+      <section className="py-20 bg-neutral-900 text-center text-white/60">
+        Loading DJs...
+      </section>
+    );
+  }
+
   return (
     <section
       id="djs"
@@ -53,7 +78,7 @@ function DJs() {
           A group of DJs shaping Melbourne’s underground electronic scene.
         </p>
 
-        {/* CAROUSEL */}
+        {/* 🔥 CAROUSEL (AHORA REAL) */}
         <div ref={sliderRef} className="keen-slider">
           {djs.map((dj) => (
             <div key={dj.id} className="keen-slider__slide">

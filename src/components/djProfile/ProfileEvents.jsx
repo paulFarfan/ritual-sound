@@ -1,5 +1,5 @@
 function ProfileEvents({ dj }) {
-  if (!dj.booking.eventTypes?.length) return null;
+  if (!dj.meta.eventTypes?.length) return null;
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">

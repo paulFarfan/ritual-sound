@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import djs from "../../data/djs";
+import { useState, useMemo, useEffect } from "react";
+import { getDJs } from "../../services/djService.js";
 
 import CatalogHeader from "../../components/catalog/CatalogHeader";
 import FeaturedCarousel from "../../components/catalog/FeaturedCarousel";
@@ -8,8 +8,21 @@ import DJGrid from "../../components/catalog/DJGrid";
 
 function Catalog() {
   const [filters, setFilters] = useState({});
+  const [djs, setDjs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 🔧 MAPEO DE CAMPOS (CLAVE)
+  // 🔌 FETCH DESDE SUPABASE (FUENTE CENTRAL)
+  useEffect(() => {
+    const loadDJs = async () => {
+      const data = await getDJs();
+      setDjs(data);
+      setLoading(false);
+    };
+
+    loadDJs();
+  }, []);
+
+  // 🔧 MAPEO DE CAMPOS (NO TOCAR)
   const getField = (dj, key) => {
     switch (key) {
       case "genres":
@@ -27,7 +40,7 @@ function Catalog() {
     }
   };
 
-  // 🔍 FILTRADO CORRECTO
+  // 🔍 FILTRADO (NO TOCAR)
   const filtered = useMemo(() => {
     return djs.filter((dj) => {
       return Object.entries(filters).every(([key, values]) => {
@@ -35,25 +48,33 @@ function Catalog() {
 
         return values.some((v) =>
           getField(dj, key).some(
-            (item) => item.toLowerCase() === v.toLowerCase(),
+            (item) => item?.toLowerCase() === v.toLowerCase(),
           ),
         );
       });
     });
-  }, [filters]);
+  }, [filters, djs]);
 
-  // 🔎 DETECTAR SI HAY FILTROS ACTIVOS
+  // 🔎 DETECTAR SI HAY FILTROS
   const hasFilters = Object.values(filters).some(
     (arr) => Array.isArray(arr) && arr.length > 0,
   );
 
+  // ⏳ LOADING STATE
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-neutral-900 text-white flex items-center justify-center">
+        <p className="text-white/60">Loading DJs...</p>
+      </main>
+    );
+  }
   return (
     <main className="min-h-screen bg-neutral-900 text-white">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
         <CatalogHeader />
 
         {/* 🔥 FEATURED */}
-        <FeaturedCarousel djs={djs.filter((dj) => dj.meta?.featured)} />
+        <FeaturedCarousel djs={djs.filter((dj) => dj.featured)} />
 
         {/* 🎛️ FILTERS */}
         <FiltersBar filters={filters} setFilters={setFilters} />

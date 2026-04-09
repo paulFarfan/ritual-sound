@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
-import djs from "../../data/djs";
+import { useEffect, useState } from "react";
+import { getDJBySlug } from "../../services/djService.js";
 
 import ProfileHero from "./ProfileHero";
 import ProfileAudio from "./ProfileAudio";
@@ -12,9 +13,36 @@ import ProfileVideos from "./ProfileVideos";
 function DJProfile() {
   const { slug } = useParams();
 
-  const dj = djs.find((d) => d.slug === slug);
+  const [dj, setDj] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!dj) return <div>Not found</div>;
+  useEffect(() => {
+    const loadDJ = async () => {
+      const data = await getDJBySlug(slug);
+      setDj(data);
+      setLoading(false);
+    };
+
+    loadDJ();
+  }, [slug]);
+
+  // ⏳ loading state
+  if (loading) {
+    return (
+      <main className="bg-neutral-900 text-white min-h-screen flex items-center justify-center">
+        <p className="text-white/60">Loading profile...</p>
+      </main>
+    );
+  }
+
+  // ❌ no encontrado
+  if (!dj) {
+    return (
+      <main className="bg-neutral-900 text-white min-h-screen flex items-center justify-center">
+        <p className="text-white/60">DJ not found</p>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-neutral-900 text-white">

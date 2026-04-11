@@ -42,7 +42,7 @@ export default function AuthForm() {
         .from("dj_profiles")
         .select("*")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       // 🚀 redirección correcta
       if (!data) {

@@ -3,7 +3,7 @@ import FilterGroup from "./FilterGroup";
 function FiltersBar({ filters, setFilters }) {
   const toggle = (group, value) => {
     setFilters((prev) => {
-      const current = Array.isArray(prev[group]) ? prev[group] : [];
+      const current = prev[group];
 
       return {
         ...prev,
@@ -16,15 +16,7 @@ function FiltersBar({ filters, setFilters }) {
 
   return (
     <div className="sticky top-20 z-40 mb-10 px-4">
-      <div
-        className="max-w-5xl mx-auto 
-    bg-white/[0.03] 
-    border border-white/10 
-    rounded-xl 
-    backdrop-blur-md 
-    px-6 py-4
-  "
-      >
+      <div className="max-w-5xl mx-auto bg-white/[0.03] border border-white/10 rounded-xl backdrop-blur-md px-6 py-4">
         <div className="flex flex-wrap gap-x-8 gap-y-3 justify-center">
           <FilterGroup
             title="Genres"
@@ -35,10 +27,10 @@ function FiltersBar({ filters, setFilters }) {
           />
 
           <FilterGroup
-            title="Mood"
-            titleKey="mood"
-            options={["Hypnotic", "Raw", "Deep", "Industrial"]}
-            selected={filters.mood}
+            title="Location"
+            titleKey="location"
+            options={["Melbourne", "Berlin", "CDMX", "Sydney"]}
+            selected={filters.location}
             onToggle={toggle}
           />
         </div>

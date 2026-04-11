@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { getDJs } from "../../services/djService.js";
+import { getAllDJs } from "../../services/djService";
 
 import CatalogHeader from "../../components/catalog/CatalogHeader";
 import FeaturedCarousel from "../../components/catalog/FeaturedCarousel";
@@ -7,14 +7,17 @@ import FiltersBar from "../../components/catalog/FiltersBar";
 import DJGrid from "../../components/catalog/DJGrid";
 
 function Catalog() {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    genres: [],
+    location: [],
+  });
+
   const [djs, setDjs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔌 FETCH DESDE SUPABASE (FUENTE CENTRAL)
   useEffect(() => {
     const loadDJs = async () => {
-      const data = await getDJs();
+      const data = await getAllDJs();
       setDjs(data);
       setLoading(false);
     };
@@ -22,45 +25,31 @@ function Catalog() {
     loadDJs();
   }, []);
 
-  // 🔧 MAPEO DE CAMPOS (NO TOCAR)
-  const getField = (dj, key) => {
-    switch (key) {
-      case "genres":
-        return dj.sound?.genres || [];
-      case "mood":
-        return dj.sound?.mood || [];
-      case "energy":
-        return dj.sound?.energy || [];
-      case "location":
-        return dj.profile?.location || [];
-      case "eventTypes":
-        return dj.booking?.eventTypes || [];
-      default:
-        return [];
-    }
-  };
-
-  // 🔍 FILTRADO (NO TOCAR)
+  // 🔥 SIMPLE Y DIRECTO
   const filtered = useMemo(() => {
     return djs.filter((dj) => {
-      return Object.entries(filters).every(([key, values]) => {
-        if (!Array.isArray(values) || values.length === 0) return true;
+      const genres = dj.sound.genres;
+      const locations = dj.profile.location;
 
-        return values.some((v) =>
-          getField(dj, key).some(
-            (item) => item?.toLowerCase() === v.toLowerCase(),
-          ),
+      const matchGenres =
+        !filters.genres.length ||
+        filters.genres.some((g) =>
+          genres.some((item) => item.toLowerCase() === g.toLowerCase()),
         );
-      });
+
+      const matchLocation =
+        !filters.location.length ||
+        filters.location.some((loc) =>
+          locations.some((item) => item.toLowerCase() === loc.toLowerCase()),
+        );
+
+      return matchGenres && matchLocation;
     });
   }, [filters, djs]);
 
-  // 🔎 DETECTAR SI HAY FILTROS
-  const hasFilters = Object.values(filters).some(
-    (arr) => Array.isArray(arr) && arr.length > 0,
-  );
+  // 🔥 evitar recalcular cada render
+  const featuredDJs = useMemo(() => djs.filter((dj) => dj.featured), [djs]);
 
-  // ⏳ LOADING STATE
   if (loading) {
     return (
       <main className="min-h-screen bg-neutral-900 text-white flex items-center justify-center">
@@ -68,19 +57,20 @@ function Catalog() {
       </main>
     );
   }
+
   return (
     <main className="min-h-screen bg-neutral-900 text-white">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
         <CatalogHeader />
 
         {/* 🔥 FEATURED */}
-        <FeaturedCarousel djs={djs.filter((dj) => dj.featured)} />
+        <FeaturedCarousel djs={featuredDJs} />
 
         {/* 🎛️ FILTERS */}
         <FiltersBar filters={filters} setFilters={setFilters} />
 
         {/* 🧩 GRID */}
-        <DJGrid djs={hasFilters ? filtered : djs} />
+        <DJGrid djs={filtered} />
       </div>
     </main>
   );

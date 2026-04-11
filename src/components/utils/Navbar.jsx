@@ -1,9 +1,34 @@
-import { useState } from "react";
 import logo from "../../assets/images/favicon.png";
-
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
+import { useEffect, useState } from "react";
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const { session } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
+  const [mySlug, setMySlug] = useState(null);
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!session) return;
 
+      const { data, error } = await supabase
+        .from("dj_profiles")
+        .select("slug")
+        .eq("user_id", session.user.id)
+        .single();
+
+      if (!error && data) {
+        setMySlug(data.slug);
+      }
+    };
+
+    loadProfile();
+  }, [session]);
   return (
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-black/40 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
@@ -35,13 +60,36 @@ function Navbar() {
           </a>
         </div>
 
-        {/* Desktop CTA */}
-        <a
-          href="#academy"
-          className="hidden md:block px-5 py-2 bg-purple-600 rounded-lg hover:scale-105 transition uppercase tracking-wider text-sm"
-        >
-          Join Us
-        </a>
+        {!session ? (
+          <a
+            href="/auth"
+            className="hidden md:block px-5 py-2 bg-purple-600 rounded-lg hover:scale-105 transition uppercase tracking-wider text-sm"
+          >
+            Join Us
+          </a>
+        ) : (
+          <div className="hidden md:flex items-center gap-4">
+            {/* Avatar */}
+            <div
+              onClick={() => {
+                if (mySlug) navigate(`/dj/${mySlug}`);
+              }}
+              className="w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center cursor-pointer hover:scale-105 transition"
+            >
+              <span className="text-sm font-bold">
+                {session.user.email?.[0].toUpperCase()}
+              </span>
+            </div>
+
+            {/* Logout */}
+            <button
+              onClick={handleLogout}
+              className="text-xs text-white/60 hover:text-red-400 transition"
+            >
+              Logout
+            </button>
+          </div>
+        )}
 
         {/* Mobile Button */}
         <button
@@ -77,13 +125,30 @@ function Navbar() {
             Hire
           </a>
 
-          <a
-            href="#academy"
-            onClick={() => setOpen(false)}
-            className="mt-4 px-8 py-3 bg-purple-600 rounded-lg uppercase tracking-wider"
-          >
-            Join Us
-          </a>
+          {!session ? (
+            <a
+              href="/auth"
+              onClick={() => setOpen(false)}
+              className="mt-4 px-8 py-3 bg-purple-600 rounded-lg uppercase tracking-wider"
+            >
+              Join Us
+            </a>
+          ) : (
+            <div className="flex flex-col items-center gap-4 mt-4">
+              <button
+                onClick={() => {
+                  if (mySlug) navigate(`/dj/${mySlug}`);
+                }}
+                className="px-6 py-2 border border-white/20 rounded-lg"
+              >
+                My Profile
+              </button>
+
+              <button onClick={handleLogout} className="text-red-400">
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

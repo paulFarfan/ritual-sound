@@ -1,4 +1,12 @@
-function FilterGroup({ title, titleKey, options, selected = [], onToggle }) {
+function FilterGroup({
+  title,
+  titleKey,
+  options = [],
+  selected = [],
+  onToggle,
+}) {
+  if (options.length === 0) return null;
+
   return (
     <div className="flex items-center gap-3 flex-wrap text-sm">
       {/* TITLE */}
@@ -8,32 +16,31 @@ function FilterGroup({ title, titleKey, options, selected = [], onToggle }) {
 
       {/* OPTIONS */}
       {options.map((opt) => {
-        const active = selected?.includes(opt);
+        const isObject = typeof opt === "object";
+
+        const value = isObject ? opt.value : opt;
+        const label = isObject ? opt.label : opt;
+        const count = isObject ? opt.count : null;
+
+        const active = selected.includes(value);
 
         return (
           <button
-            key={opt}
-            onClick={() => onToggle(titleKey, opt)}
+            key={value}
+            onClick={() => onToggle(titleKey, value)}
             className={`
               px-3 py-1 rounded-full transition-all duration-200
-              
               ${
                 active
-                  ? `
-                    bg-purple-500/20 
-                    text-purple-300 
-                    border border-purple-500/40
-                    shadow-[0_0_10px_rgba(168,85,247,0.5)]
-                  `
-                  : `
-                    text-white/50 
-                    hover:text-white
-                    border border-transparent
-                  `
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                  : "text-white/50 hover:text-white border border-transparent"
               }
             `}
           >
-            {opt}
+            {label}
+            {count !== null && (
+              <span className="ml-1 text-white/30">({count})</span>
+            )}
           </button>
         );
       })}

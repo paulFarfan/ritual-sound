@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDJBySlug } from "../../services/djService.js";
+import useAuth from "../../hooks/useAuth";
 
 import ProfileHero from "./ProfileHero";
 import ProfileAudio from "./ProfileAudio";
@@ -12,6 +13,7 @@ import ProfileVideos from "./ProfileVideos";
 
 function DJProfile() {
   const { slug } = useParams();
+  const { session } = useAuth();
 
   const [dj, setDj] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,10 @@ function DJProfile() {
     loadDJ();
   }, [slug]);
 
-  // ⏳ loading state
+  // 🔥 calcular ownership SOLO cuando hay datos
+  const isOwner = !!session && !!dj && session.user.id === dj.user_id;
+
+  // ⏳ loading
   if (loading) {
     return (
       <main className="bg-neutral-900 text-white min-h-screen flex items-center justify-center">
@@ -46,7 +51,7 @@ function DJProfile() {
 
   return (
     <main className="bg-neutral-900 text-white">
-      <ProfileHero dj={dj} />
+      <ProfileHero dj={dj} isOwner={isOwner} />
       <ProfileBio dj={dj} />
       <ProfileAudio dj={dj} />
       <ProfileEvents dj={dj} />

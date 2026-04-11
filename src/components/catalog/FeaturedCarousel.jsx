@@ -20,15 +20,15 @@ function FeaturedCarousel({ djs = [] }) {
     },
   });
 
-  if (!djs.length) return null;
+  if (djs.length === 0) return null;
 
   return (
     <section className="mb-16">
       <h2 className="text-xl md:text-2xl neon-text mb-6">Current Energy</h2>
 
       <div ref={sliderRef} className="keen-slider">
-        {djs.slice(0, 10).map((dj) => (
-          <div key={dj.id} className="keen-slider__slide">
+        {djs.slice(0, 10).map((dj, index) => (
+          <div key={`${dj.id}-${index}`} className="keen-slider__slide">
             <DJCard dj={dj} variant="featured" />
           </div>
         ))}

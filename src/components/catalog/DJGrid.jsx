@@ -1,7 +1,7 @@
 import DJCard from "../utils/DJCard";
 
-function DJGrid({ djs }) {
-  if (!djs.length) {
+function DJGrid({ djs = [] }) {
+  if (djs.length === 0) {
     return (
       <div className="text-center py-20 text-white/50">
         No DJs found with those filters.

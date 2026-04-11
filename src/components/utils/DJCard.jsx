@@ -1,27 +1,41 @@
 import { useNavigate } from "react-router-dom";
+import defaultAvatar from "../../assets/images/default-avatar.png";
 
 function DJCard({ dj, variant = "minimal" }) {
-  const isCatalog = variant === "catalog";
-  const isFeatured = variant === "featured";
   const navigate = useNavigate();
 
-  const avatar = dj.media?.avatar;
-  const location = dj.profile?.location?.[0];
-  const genres = dj.sound?.genres || [];
-  const mood = dj.sound?.mood || [];
+  const isFeatured = variant === "featured";
+  const isMinimal = variant === "minimal";
+
+  // 🔥 DATA DIRECTA (ya normalizada)
+  const avatar = dj.media.avatar || defaultAvatar;
+  const location = dj.profile.location.length
+    ? dj.profile.location.join(", ")
+    : "Unknown";
+  const genres = dj.sound.genres;
+
+  const name = dj.profile.name || "Unknown DJ";
+  const tagline = dj.profile.tagline;
+
+  const instagram = dj.social.instagram;
+  const instagramUrl = dj.social.instagram_url;
+
+  const handleClick = () => {
+    if (!dj.slug) return;
+    navigate(`/dj/${dj.slug}`);
+  };
 
   return (
     <div className="relative group rounded-2xl overflow-hidden cursor-pointer">
       {/* GLOW */}
-      <div className="absolute inset-0 bg-purple-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+      <div className="absolute inset-0 bg-purple-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500" />
 
       {/* CARD */}
       <div
-        onClick={() => navigate(`/dj/${dj.slug}`)}
+        onClick={handleClick}
         className={`relative bg-neutral-900 border border-white/10 rounded-2xl overflow-hidden transition duration-300 
         group-hover:scale-[1.03] group-hover:border-purple-500
-        ${isFeatured ? "md:scale-105" : ""}
-      `}
+        ${isFeatured ? "md:scale-105" : ""}`}
       >
         {/* IMAGE */}
         <div
@@ -30,7 +44,7 @@ function DJCard({ dj, variant = "minimal" }) {
           {avatar ? (
             <img
               src={avatar}
-              alt={dj.profile?.name}
+              alt={name}
               className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
             />
           ) : (
@@ -44,64 +58,49 @@ function DJCard({ dj, variant = "minimal" }) {
 
         {/* CONTENT */}
         <div className="p-5">
-          {/* NAME */}
           <h3 className="text-lg font-bold uppercase tracking-widest">
-            {dj.profile?.name}
+            {name}
           </h3>
 
-          {/* 🔥 MINIMAL */}
-          {!isCatalog && !isFeatured && (
-            <p className="text-xs text-white/50">
-              {location} • {genres.join(", ")}
-            </p>
+          {/* 🟣 MINIMAL */}
+          {isMinimal && (
+            <p className="text-xs text-white/50 mt-1">{location}</p>
           )}
 
-          {/* ⚡ CATALOG + FEATURED */}
-          {(isCatalog || isFeatured) && (
+          {/* 🟢 FULL (catalog + featured) */}
+          {!isMinimal && (
             <>
-              {/* TAGLINE */}
-              {dj.profile?.tagline && (
-                <p className="text-sm text-white/70 mt-1">
-                  {dj.profile.tagline}
-                </p>
+              {tagline && (
+                <p className="text-sm text-white/70 mt-1">{tagline}</p>
               )}
 
-              {/* TAGS */}
-              <div className="flex flex-wrap gap-2 mt-3">
-                {genres.slice(0, 2).map((s) => (
-                  <span
-                    key={s}
-                    className="text-[10px] px-2 py-1 border border-white/20 rounded-full text-white/70"
-                  >
-                    {s}
-                  </span>
-                ))}
+              {genres.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {genres.slice(0, 2).map((g, i) => (
+                    <span
+                      key={`genre-${g}-${i}`}
+                      className="text-[10px] px-2 py-1 border border-white/20 rounded-full text-white/70"
+                    >
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              )}
 
-                {mood.slice(0, 2).map((m) => (
-                  <span
-                    key={m}
-                    className="text-[10px] px-2 py-1 border border-purple-500/40 text-purple-300 rounded-full"
-                  >
-                    {m}
-                  </span>
-                ))}
-              </div>
-
-              {/* LOCATION */}
               <p className="text-xs text-white/40 mt-3">{location}</p>
             </>
           )}
 
           {/* INSTAGRAM */}
-          {!isCatalog && !isFeatured && dj.social?.instagram && (
+          {isMinimal && instagram && instagramUrl && (
             <a
-              href={dj.social.instagram_url}
+              href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-white/60 hover:text-pink-400 transition"
-              onClick={(e) => e.stopPropagation()} // 🔥 evita navegar al perfil
+              className="text-xs text-white/60 hover:text-pink-400 transition mt-2 block"
+              onClick={(e) => e.stopPropagation()}
             >
-              @{dj.social.instagram}
+              @{instagram}
             </a>
           )}
         </div>

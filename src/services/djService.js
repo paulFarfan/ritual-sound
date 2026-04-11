@@ -1,94 +1,73 @@
 import { supabase } from "../lib/supabase";
 
-export async function getDJs() {
-  const { data, error } = await supabase
-    .from("dj_profiles")
-    .select(
-      `
-      *,
-      dj_sound (*),
-      dj_media (*),
-      dj_social (*),
-      dj_meta (*),
-     dj_content (*)
-    `,
-    )
-    .eq("approved", true);
+// 🔥 SELECT CENTRALIZADO
+const DJ_SELECT = `
+  *,
+  dj_sound (*),
+  dj_media (*),
+  dj_social (*),
+  dj_meta (*),
+  dj_content (*)
+`;
 
-  if (error) {
-    console.error(error);
-    return [];
-  }
-
-  return data.map((dj) => {
-    const content = dj.dj_content || [];
-
-    return {
-      id: dj.id,
-      slug: dj.slug,
-      featured: dj.featured,
-      profile: {
-        name: dj.name,
-        tagline: dj.tagline,
-        bio: dj.bio,
-        location: dj.location,
-        origin: dj.origin,
-      },
-
-      sound: dj.dj_sound[0],
-      media: dj.dj_media[0],
-      social: dj.dj_social[0],
-      meta: dj.dj_meta[0],
-
-      // 🔥 NUEVO SISTEMA
-      mediaContent: {
-        mixes: content.filter((c) => c.type === "mix"),
-        videos: content.filter((c) => c.type === "video"),
-        gallery: content.filter((c) => c.type === "image"),
-      },
-    };
-  });
+// 🔥 HELPER UNIVERSAL (CLAVE)
+function getSingle(item) {
+  if (Array.isArray(item)) return item[0] || {};
+  return item || {};
 }
 
-export async function getDJBySlug(slug) {
-  const { data, error } = await supabase
-    .from("dj_profiles")
-    .select(
-      `
-      *,
-      dj_sound (*),
-      dj_media (*),
-      dj_social (*),
-      dj_meta (*),
-      dj_content (*)
-    `,
-    )
-    .eq("slug", slug)
-    .single();
+// 🔥 NORMALIZADOR
+function normalizeDJ(dj) {
+  const content = dj.dj_content || [];
 
-  if (error) {
-    console.error(error);
-    return null;
-  }
+  // 🔥 normalizar relaciones
+  const sound = getSingle(dj.dj_sound);
+  const media = getSingle(dj.dj_media);
+  const social = getSingle(dj.dj_social);
+  const meta = getSingle(dj.dj_meta);
 
-  const content = data.dj_content || [];
+  // 🔥 location siempre array
+  const location = Array.isArray(dj.location)
+    ? dj.location
+    : dj.location
+      ? [dj.location]
+      : [];
 
   return {
-    id: data.id,
-    slug: data.slug,
+    id: dj.id,
+    slug: dj.slug,
+    featured: dj.featured || false,
+    user_id: dj.user_id,
 
     profile: {
-      name: data.name,
-      tagline: data.tagline,
-      bio: data.bio,
-      location: data.location,
-      origin: data.origin,
+      name: dj.name || "",
+      tagline: dj.tagline || "",
+      bio: dj.bio || "",
+      location,
+      origin: dj.origin || "",
     },
 
-    sound: data.dj_sound?.[0],
-    media: data.dj_media?.[0],
-    social: data.dj_social?.[0],
-    meta: data.dj_meta?.[0],
+    sound: {
+      genres: Array.isArray(sound.genres) ? sound.genres : [],
+      mood: Array.isArray(sound.mood) ? sound.mood : [],
+      energy: Array.isArray(sound.energy) ? sound.energy : [],
+      vibe: Array.isArray(sound.vibe) ? sound.vibe : [],
+    },
+
+    media: {
+      avatar: media.avatar || null,
+      cover: media.cover || null,
+    },
+
+    social: {
+      instagram: social.instagram || "",
+      instagram_url: social.instagram_url || "",
+    },
+
+    meta: {
+      experience: meta.experience || "",
+      verified: meta.verified || false,
+    },
 
     mediaContent: {
       mixes: content.filter((c) => c.type === "mix"),
@@ -96,4 +75,51 @@ export async function getDJBySlug(slug) {
       gallery: content.filter((c) => c.type === "image"),
     },
   };
+}
+
+// 🔥 TODOS LOS DJs
+export async function getAllDJs() {
+  const { data, error } = await supabase
+    .from("dj_profiles")
+    .select(DJ_SELECT)
+    .eq("approved", true);
+
+  if (error) {
+    console.error("Error fetching DJs:", error);
+    return [];
+  }
+
+  return data.map(normalizeDJ);
+}
+
+// 🔥 FEATURED
+export async function getFeaturedDJs() {
+  const { data, error } = await supabase
+    .from("dj_profiles")
+    .select(DJ_SELECT)
+    .eq("approved", true)
+    .eq("featured", true);
+
+  if (error) {
+    console.error("Error fetching featured DJs:", error);
+    return [];
+  }
+
+  return data.map(normalizeDJ);
+}
+
+// 🔥 SINGLE DJ
+export async function getDJBySlug(slug) {
+  const { data, error } = await supabase
+    .from("dj_profiles")
+    .select(DJ_SELECT)
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    console.error("Error fetching DJ:", error);
+    return null;
+  }
+
+  return normalizeDJ(data);
 }

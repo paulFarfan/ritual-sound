@@ -2,7 +2,7 @@ function ProfileFooter({ dj }) {
   return (
     <section className="text-center py-16">
       <a
-        href={dj.social.instagramUrl}
+        href={dj.social.instagram_url}
         target="_blank"
         className="text-white/60 hover:text-white"
       >
